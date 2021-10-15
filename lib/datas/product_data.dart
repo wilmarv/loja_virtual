@@ -11,7 +11,7 @@ class ProductData{
   late double price;
 
   late List image;
-  late List size;
+  late List? size;
 
 
 
@@ -21,7 +21,7 @@ class ProductData{
     description = snapshot.data["description"];
     price = snapshot.data["price"] + 0.0;
     image = snapshot.data["image"];
-    size = snapshot.data["size"];
+    size = snapshot?.data["size"];
   }
 
 }
