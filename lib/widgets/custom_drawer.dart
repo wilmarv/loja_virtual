@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/screens/login_screen.dart';
 import 'package:loja_virtual/tiles/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
   CustomDrawer(this.pageController);
 
   final PageController pageController;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +57,10 @@ class CustomDrawer extends StatelessWidget {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
                             ),
-                            onTap: (){
-
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (contex)=> LoginScreen())
+                              );
                             },
                           )
                         ],
@@ -69,10 +70,11 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               Divider(),
-              DrawerTile(Icons.home,"Início",pageController,0),
-              DrawerTile(Icons.list,"Produtos",pageController,1),
-              DrawerTile(Icons.location_on,"Lojas",pageController,2),
-              DrawerTile(Icons.playlist_add_check,"Meus Pedidos",pageController,3),
+              DrawerTile(Icons.home, "Início", pageController, 0),
+              DrawerTile(Icons.list, "Produtos", pageController, 1),
+              DrawerTile(Icons.location_on, "Lojas", pageController, 2),
+              DrawerTile(
+                  Icons.playlist_add_check, "Meus Pedidos", pageController, 3),
             ],
           )
         ],
