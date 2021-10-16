@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/datas/cart_product.dart';
 import 'package:loja_virtual/datas/product_data.dart';
+import 'package:loja_virtual/model/cart_model.dart';
 
 class CartTile extends StatelessWidget {
   final CartProduct cartProduct;
@@ -12,6 +13,7 @@ class CartTile extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _buildContent() {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             padding: EdgeInsets.all(8),
@@ -23,12 +25,14 @@ class CartTile extends StatelessWidget {
               child: Container(
             padding: EdgeInsets.all(8),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(cartProduct.productData.title,
                     style:
                         TextStyle(fontWeight: FontWeight.w500, fontSize: 17)),
-                Text("Tamanho: ${cartProduct.size}",
-                    style: TextStyle(fontWeight: FontWeight.w300)),
+                cartProduct.size!=null ? Text("Tamanho: ${cartProduct.size}",
+                    style: TextStyle(fontWeight: FontWeight.w300)):Container(),
                 Text(
                   "R\$ ${cartProduct.productData.price.toStringAsFixed(2)}",
                   style: TextStyle(
@@ -37,11 +41,18 @@ class CartTile extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.remove)),
+                    IconButton(onPressed: cartProduct.quantity>1?(){
+                      CartModel.of(context).decProduct(cartProduct);
+                    }:null, icon: Icon(Icons.remove),color: Theme.of(context).primaryColor,),
                     Text(cartProduct.quantity.toString()),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-                    FlatButton(onPressed: (){}, child: Text("Remover"),textColor:Colors.grey[500])
+                    IconButton(onPressed: () {
+                      CartModel.of(context).incProduct(cartProduct);
+                    }, icon: Icon(Icons.add),color: Theme.of(context).primaryColor),
+                    FlatButton(onPressed: (){
+                      CartModel.of(context).removeCartItem(cartProduct);
+                    }, child: Text("Remover"),textColor:Colors.grey[500])
                   ],
                 )
               ],
