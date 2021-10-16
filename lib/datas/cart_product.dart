@@ -1,20 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:loja_virtual/datas/product_data.dart';
 
-class CartProduct{
-
+class CartProduct {
   CartProduct();
 
-  late String cid;
-  late String category;
-  late String pid;
+  String cid;
+  String category;
+  String pid;
 
-  late int quantity;
-  late String? size;
+  int quantity;
+  String size;
 
-  late ProductData productData;
+  ProductData productData;
 
-  CartProduct.fromDocument(DocumentSnapshot document){
+  CartProduct.fromDocument(DocumentSnapshot document) {
     cid = document.documentID;
     category = document.data["category"];
     pid = document.data["pid"];
@@ -22,14 +21,13 @@ class CartProduct{
     size = document.data["size"];
   }
 
-  Map<String,dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
-      "category":category,
-      "pid":pid,
-      "quantity":quantity,
-      "size":size,
+      "category": category,
+      "pid": pid,
+      "quantity": quantity,
+      "size": size,
       //"product":productData.toResumedMap()
     };
   }
-
 }

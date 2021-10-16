@@ -4,7 +4,6 @@ import 'package:loja_virtual/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -51,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(hintText: "E-mail"),
                   keyboardType: TextInputType.emailAddress,
                   validator: (text) {
-                    if (text!.isEmpty || !text.contains("@"))
+                    if (text.isEmpty || !text.contains("@"))
                       return "E-mail inválido";
                   },
                 ),
@@ -61,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(hintText: "Senha"),
                   obscureText: true,
                   validator: (text) {
-                    if (text!.isEmpty || text.length < 6)
+                    if (text.isEmpty || text.length < 6)
                       return "Senha inválida";
                   },
                 ),
@@ -71,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       if (_emailControler.text.isEmpty)
-                        _scaffolddKey.currentState!.showSnackBar(
+                        _scaffolddKey.currentState.showSnackBar(
                           SnackBar(
                               content: Text("Insira seu e-mail para recuperação!"),
                               backgroundColor: Colors.redAccent,
@@ -79,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       else {
                         model.recoverPass(email: _emailControler.text);
-                        _scaffolddKey.currentState!.showSnackBar(
+                        _scaffolddKey.currentState.showSnackBar(
                           SnackBar(
                               content: Text("Confira seu e-mail!"),
                               backgroundColor: Theme.of(context).primaryColor,
@@ -96,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 44,
                   child: RaisedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState.validate()) {}
                       model.signIn(
                           email: _emailControler.text,
                           password: _passControler.text,
@@ -122,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onFail() {
-    _scaffolddKey.currentState!.showSnackBar(
+    _scaffolddKey.currentState.showSnackBar(
       SnackBar(
           content: Text("Falha ao Entrar!"),
           backgroundColor: Colors.redAccent,

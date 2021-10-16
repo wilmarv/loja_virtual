@@ -3,7 +3,6 @@ import 'package:loja_virtual/model/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -38,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: _nameControler,
                     decoration: InputDecoration(hintText: "Nome Completo"),
                     validator: (text) {
-                      if (text!.isEmpty) return "Nome inválido";
+                      if (text.isEmpty) return "Nome inválido";
                     },
                   ),
                   SizedBox(height: 16),
@@ -47,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: InputDecoration(hintText: "E-mail"),
                     keyboardType: TextInputType.emailAddress,
                     validator: (text) {
-                      if (text!.isEmpty || !text.contains("@"))
+                      if (text.isEmpty || !text.contains("@"))
                         return "E-mail inválido";
                     },
                   ),
@@ -57,7 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: InputDecoration(hintText: "Senha"),
                     obscureText: true,
                     validator: (text) {
-                      if (text!.isEmpty || text.length < 6)
+                      if (text.isEmpty || text.length < 6)
                         return "Senha inválida";
                     },
                   ),
@@ -66,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     controller: _adressControler,
                     decoration: InputDecoration(hintText: "Endereço"),
                     validator: (text) {
-                      if (text!.isEmpty) return "Endereço inválida";
+                      if (text.isEmpty) return "Endereço inválida";
                     },
                   ),
                   SizedBox(height: 16),
@@ -74,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 44,
                     child: RaisedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (_formKey.currentState.validate()) {
                           Map<String, dynamic> userData = {
                             "name": _nameControler.text,
                             "email": _emailControler.text,
@@ -103,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onSuccess() {
-    _scaffolddKey.currentState!.showSnackBar(
+    _scaffolddKey.currentState.showSnackBar(
       SnackBar(
           content: Text("Usuário criado com successo!"),
           backgroundColor: Theme.of(context).primaryColor,
@@ -114,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onFail() {
-    _scaffolddKey.currentState!.showSnackBar(
+    _scaffolddKey.currentState.showSnackBar(
       SnackBar(
           content: Text("Falha ao criar usuário!"),
           backgroundColor: Colors.redAccent,

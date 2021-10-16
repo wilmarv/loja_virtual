@@ -7,6 +7,8 @@ import 'package:scoped_model/scoped_model.dart';
 class CartModel extends Model {
   UserModel user;
 
+  bool isLoading = false;
+
   List<CartProduct> products = [];
 
   CartModel(this.user);
@@ -19,7 +21,7 @@ class CartModel extends Model {
 
     Firestore.instance
         .collection("users")
-        .document(user.firebaseUser!.uid)
+        .document(user.firebaseUser.uid)
         .collection("cart")
         .add(cartProduct.toMap())
         .then((doc) {
@@ -31,7 +33,7 @@ class CartModel extends Model {
   void removeCartItem(CartProduct cartProduct) {
     Firestore.instance
         .collection("users")
-        .document(user.firebaseUser!.uid)
+        .document(user.firebaseUser.uid)
         .collection("cart")
         .document(cartProduct.cid)
         .delete();

@@ -4,6 +4,7 @@ import 'package:loja_virtual/datas/cart_product.dart';
 import 'package:loja_virtual/datas/product_data.dart';
 import 'package:loja_virtual/model/cart_model.dart';
 import 'package:loja_virtual/model/user_model.dart';
+import 'package:loja_virtual/screens/cart_screen.dart';
 import 'package:loja_virtual/screens/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   _ProductScreenState(this.product);
 
-  String? tamanhoSelecinado;
+  String tamanhoSelecinado;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               crossAxisCount: 1,
                               mainAxisSpacing: 8,
                               childAspectRatio: 0.5),
-                          children: product.size!.map((size) {
+                          children: product.size.map((size) {
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -102,7 +103,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                     border: Border.all(
                                         color: tamanhoSelecinado == size
                                             ? primaryColors
-                                            : Colors.grey[500]!,
+                                            : Colors.grey[500],
                                         width: 3)),
                                 width: 50,
                                 alignment: Alignment.center,
@@ -137,7 +138,12 @@ class _ProductScreenState extends State<ProductScreen> {
                         cartProduct.pid = product.id;
                         cartProduct.category = product.category;
 
+
                         CartModel.of(context).addCartItem(cartProduct);
+
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CartScreen()));
+
                       } else
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => LoginScreen()));
