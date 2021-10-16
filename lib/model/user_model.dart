@@ -10,6 +10,8 @@ class UserModel extends Model {
 
   bool isLoading = false;
 
+  static UserModel of(BuildContext context) =>
+      ScopedModel.of<UserModel>(context);
 
   @override
   void addListener(VoidCallback listener) {
@@ -54,7 +56,7 @@ class UserModel extends Model {
 
     _auth
         .signInWithEmailAndPassword(email: email, password: password)
-        .then((user)async {
+        .then((user) async {
       firebaseUser = user;
 
       await _loadCurrentUser();
@@ -73,6 +75,7 @@ class UserModel extends Model {
     await _auth.signOut();
     userData = Map();
     firebaseUser = null;
+    notifyListeners();
   }
 
   void recoverPass({required String email}) {

@@ -1,6 +1,10 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/datas/cart_product.dart';
 import 'package:loja_virtual/datas/product_data.dart';
+import 'package:loja_virtual/model/cart_model.dart';
+import 'package:loja_virtual/model/user_model.dart';
+import 'package:loja_virtual/screens/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   ProductScreen(this.product);
@@ -20,7 +24,9 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Color primaryColors = Theme.of(context).primaryColor;
+    final Color primaryColors = Theme
+        .of(context)
+        .primaryColor;
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +43,9 @@ class _ProductScreenState extends State<ProductScreen> {
               }).toList(),
               dotSize: 5,
               dotSpacing: 15,
-              dotBgColor: Theme.of(context).secondaryHeaderColor,
+              dotBgColor: Theme
+                  .of(context)
+                  .secondaryHeaderColor,
               dotColor: primaryColors,
               autoplay: false,
             ),
@@ -64,46 +72,46 @@ class _ProductScreenState extends State<ProductScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: product.size != null
                       ? [
-                          SizedBox(height: 16),
-                          Text(
-                            "Tamanho",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(
-                              height: 34,
-                              child: GridView(
-                                padding: EdgeInsets.symmetric(vertical: 4),
-                                scrollDirection: Axis.horizontal,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 1,
-                                        mainAxisSpacing: 8,
-                                        childAspectRatio: 0.5),
-                                children: product.size!.map((size) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        tamanhoSelecinado = size;
-                                      });
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4)),
-                                          border: Border.all(
-                                              color: tamanhoSelecinado == size
-                                                  ? primaryColors
-                                                  : Colors.grey[500]!,
-                                              width: 3)),
-                                      width: 50,
-                                      alignment: Alignment.center,
-                                      child: Text(size),
-                                    ),
-                                  );
-                                }).toList(),
-                              )),
-                        ]
+                    SizedBox(height: 16),
+                    Text(
+                      "Tamanho",
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                        height: 34,
+                        child: GridView(
+                          padding: EdgeInsets.symmetric(vertical: 4),
+                          scrollDirection: Axis.horizontal,
+                          gridDelegate:
+                          SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              mainAxisSpacing: 8,
+                              childAspectRatio: 0.5),
+                          children: product.size!.map((size) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  tamanhoSelecinado = size;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(4)),
+                                    border: Border.all(
+                                        color: tamanhoSelecinado == size
+                                            ? primaryColors
+                                            : Colors.grey[500]!,
+                                        width: 3)),
+                                width: 50,
+                                alignment: Alignment.center,
+                                child: Text(size),
+                              ),
+                            );
+                          }).toList(),
+                        )),
+                  ]
                       : [],
                 ),
                 SizedBox(height: 16),
@@ -120,11 +128,25 @@ class _ProductScreenState extends State<ProductScreen> {
                   height: 44,
                   child: RaisedButton(
                     onPressed:
-                        (tamanhoSelecinado != null || product.size == null)
-                            ? () {}
-                            : null,
+                    (tamanhoSelecinado != null || product.size == null)
+                        ? () {
+                      if (UserModel.of(context).isLoggedIn()) {
+                        CartProduct cartProduct = CartProduct();
+                        cartProduct.size= tamanhoSelecinado;
+                        cartProduct.quantity = 1;
+                        cartProduct.pid = product.id;
+                        cartProduct.category = product.category;
+
+                        CartModel.of(context).addCartItem(cartProduct);
+                      } else
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => LoginScreen()));
+                    }
+                        : null,
                     child: Text(
-                      "Adicionar ao Carrinho",
+                      UserModel.of(context).isLoggedIn()
+                          ? "Adicionar ao Carrinho"
+                          : "Entre para Comprar",
                       style: TextStyle(fontSize: 18),
                     ),
                     color: primaryColors,
